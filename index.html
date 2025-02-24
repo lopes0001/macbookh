@@ -23,8 +23,40 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
-        .screen {
+        .top-bar {
+            width: 90%; /* Largura da barra */
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.7); /* Branca e transparente */
+            color: black;
+            position: absolute;
+            top: 8%; /* Movido mais para baixo (top: 8%) */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            z-index: 20;
+            border-radius: 5px;
+        }
+        .top-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .top-bar .right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .top-bar .battery {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .macbook-screen {
             width: 95%;
             height: 85%;
             background: linear-gradient(135deg, #ff7eb3, #ff758c, #d16ba5, #a755c2);
@@ -39,41 +71,34 @@
             position: relative;
         }
         .dock {
-            width: 80%;
-            height: 30px; /* Diminuído de 50px para 30px */
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 20px;
+            width: 70%;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
             position: absolute;
-            bottom: 10px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: center;
+            justify-content: space-evenly;
             align-items: center;
-            gap: 10px;
             padding: 5px;
+            z-index: 10;
         }
         .icon {
-            width: 30px; /* Diminuído de 40px para 30px */
-            height: 30px; /* Diminuído de 40px para 30px */
-            border-radius: 10px;
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
             background: white;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
         }
-        .window {
-            width: 70%;
-            height: 60%;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            margin-top: 20px;
-            color: black;
+        .icon:hover {
+            transform: scale(1.1);
+            background-color: #f0f0f0;
         }
         .base {
             width: 900px;
@@ -84,23 +109,168 @@
             bottom: -20px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
+
+        /* Estilo para a janela de calculadora (ajustada) */
+        .calculator-window {
+            width: 250px; /* Diminuído de 300px para 250px */
+            height: 250px; /* Diminuído de 300px para 250px */
+            background-color: #fff;
+            position: absolute;
+            top: 20%;
+            left: 35%;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            z-index: 30;
+        }
+        .calculator-window .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+        }
+        .calculator-window .header span {
+            font-weight: bold;
+        }
+        .calculator-window .close-btn {
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .calculator-window .screen {
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #eaeaea;
+            border-radius: 5px;
+            font-size: 24px;
+        }
+        .calculator-window .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .calculator-window button {
+            padding: 15px;
+            font-size: 18px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .calculator-window button:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
     <div class="macbook">
-        <div class="screen">
-            <div class="window">Janela do MacBook</div>
+        <!-- Barra superior dentro da parte rosa da tela -->
+        <div class="top-bar">
+            <div class="left">
+                <!-- Logo da Apple (substitua o caminho com o arquivo correto) -->
+                <img src="apple-logo.png" alt="Apple Logo" style="width: 18px; height: 18px;">
+                <div>Nome do app</div>
+            </div>
+            <div class="right">
+                <div id="time"></div>
+                <div id="date"></div>
+                <div class="battery">
+                    <div>🔋</div>
+                    <div id="battery"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela do MacBook sem a janela -->
+        <div class="macbook-screen">
             <div class="dock">
                 <div class="icon">📁</div>
                 <div class="icon">🌍</div>
                 <div class="icon">📧</div>
                 <div class="icon">🎵</div>
-                <div class="icon">📷</div>
+                <div class="icon" onclick="openCalculator()">🧮</div> <!-- Calculadora com ação -->
                 <div class="icon">⚙️</div>
                 <div class="icon">🗑️</div>
             </div>
         </div>
         <div class="base"></div>
     </div>
+
+    <!-- Janela de calculadora (inicialmente oculta) -->
+    <div id="calculatorWindow" class="calculator-window" style="display: none;">
+        <div class="header">
+            <span>Calculadora</span>
+            <span class="close-btn" onclick="closeCalculator()">X</span>
+        </div>
+        <div class="screen">
+            <div id="calcDisplay">0</div>
+        </div>
+        <div class="buttons">
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>/</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>*</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>-</button>
+            <button>0</button>
+            <button>.</button>
+            <button>=</button>
+            <button>+</button>
+        </div>
+    </div>
+
+    <script>
+        // Função para abrir a janela da calculadora
+        function openCalculator() {
+            document.getElementById('calculatorWindow').style.display = 'block';
+        }
+
+        // Função para fechar a janela da calculadora
+        function closeCalculator() {
+            document.getElementById('calculatorWindow').style.display = 'none';
+        }
+
+        // Função para atualizar a hora
+        function updateTime() {
+            const timeElement = document.getElementById("time");
+            const dateElement = document.getElementById("date");
+            const batteryElement = document.getElementById("battery");
+
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const day = now.toLocaleString('pt-BR', { weekday: 'short' });
+            const month = now.toLocaleString('pt-BR', { month: 'short' });
+            const date = now.getDate();
+            
+            // Atualiza o horário e data
+            timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+            dateElement.textContent = `${day}, ${date} ${month}`;
+
+            // Simula a porcentagem da bateria (para fins de exemplo)
+            const batteryPercentage = Math.floor(Math.random() * 100) + 1; // Porcentagem aleatória de 1 a 100
+            batteryElement.textContent = `${batteryPercentage}%`;
+        }
+
+        // Atualiza a hora a cada segundo
+        setInterval(updateTime, 1000);
+
+        // Inicializa a hora
+        updateTime();
+    </script>
 </body>
 </html>
